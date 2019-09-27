@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+    nginx:
+        image: nginx:latest
+        container_name: nginx 
+        ports: 
+            - "80:80"
+            - "443:443"
+        volumes: 
+            - ./nginx/conf.d:/etc/nginx/conf.d 
+            - ./nginx/ssl:/etc/nginx/ssl
+            - ./www:/var/www/
+            - ./nginx/logs:/var/log/nginx/
+        links: 
+            - php 
+    php: 
+        build: ./php
+        container_name: php 
+        links: 
+            - postgres 
+            - redis 
+        volumes: 
+            - ./www:/var/www  
+            - ./php/php.ini:/usr/local/etc/php/conf.d/z-custom.ini
+    postgres: 
+        container_name: postgres 
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: root
+        volumes: 
+            - ./postgres/:/docker-entrypoint-initdb.d/
+    redis:
+        container_name: redis 
+        image: redis
+        restart: always 
+        ports: 
+            - 6379:6379 
+    echo:
+        container_name: echo 
+        image: lagun4ik/laravel-echo-server 
+        env_file: ./www/.env
+        ports:
+          - 6001:6001 
+        depends_on: 
+            - nginx 
+            - redis
+        links:
+          - nginx 
+          - redis
+        volumes:
+          - ./www/laravel-echo-server.json:/app/laravel-echo-server.json:ro
+          - ./www/.env:/app/.env:ro
