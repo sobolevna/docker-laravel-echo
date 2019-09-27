@@ -1,7 +1,7 @@
 # Для начала указываем исходный образ, он будет использован как основа
 FROM php:7.1-apache
 # Необязательная строка с указанием автора образа
-MAINTAINER PHPtoday.ru <info@phptoday.ru>
+MAINTAINER PHPtoday.ru <info@phptoday.ru> 
 
 # RUN выполняет идущую за ней команду в контексте нашего образа.
 # В данном случае мы установим некоторые зависимости и модули PHP.
@@ -35,4 +35,8 @@ WORKDIR /var/www
 # Запускаем контейнер
 # Из документации: The main purpose of a CMD is to provide defaults for an executing container. These defaults can include an executable, 
 # or they can omit the executable, in which case you must specify an ENTRYPOINT instruction as well.
-CMD ["php-fpm"]
+#CMD ["php"]
+
+RUN a2enmod ssl \ 
+    && a2ensite default-ssl \ 
+    && mkdir -p /var/run/apache2/ 

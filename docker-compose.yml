@@ -1,28 +1,20 @@
 version: '3'
 
 services:
-    nginx:
-        image: nginx:latest
-        container_name: nginx 
-        ports: 
-            - "80:80"
-            - "443:443"
-        volumes: 
-            - ./nginx/conf.d:/etc/nginx/conf.d 
-            - ./nginx/ssl:/etc/nginx/ssl
-            - ./www:/var/www/
-            - ./nginx/logs:/var/log/nginx/
-        links: 
-            - php 
     php: 
         build: ./php
         container_name: php 
-        links: 
+        ports: 
+            - "80:80"
+            - "443:443"
+        depends_on: 
             - postgres 
             - redis 
         volumes: 
             - ./www:/var/www  
             - ./php/php.ini:/usr/local/etc/php/conf.d/z-custom.ini
+            - ./apache2/sites-available/:/etc/apache2/sites-available/
+            - ./apache2/ssl/:/etc/apache2/ssl/
     postgres: 
         container_name: postgres 
         image: postgres
@@ -44,11 +36,12 @@ services:
         ports:
           - 6001:6001 
         depends_on: 
-            - nginx 
+            - php 
             - redis
         links:
-          - nginx 
+          - php 
           - redis
         volumes:
           - ./www/laravel-echo-server.json:/app/laravel-echo-server.json:ro
           - ./www/.env:/app/.env:ro
+          - ./apache2/ssl:/etc/apache2/ssl
