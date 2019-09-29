@@ -37,6 +37,7 @@ WORKDIR /var/www
 # or they can omit the executable, in which case you must specify an ENTRYPOINT instruction as well.
 #CMD ["php"]
 
-RUN a2enmod ssl \ 
+RUN a2enmod ssl \
+    && a2enmod rewrite \ 
     && a2ensite default-ssl \ 
     && mkdir -p /var/run/apache2/ 
