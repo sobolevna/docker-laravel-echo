@@ -1,5 +1,5 @@
 # Для начала указываем исходный образ, он будет использован как основа
-FROM php:7.1-apache
+FROM php:7.2-apache
 # Необязательная строка с указанием автора образа
 MAINTAINER PHPtoday.ru <info@phptoday.ru> 
 
@@ -16,10 +16,10 @@ RUN apt-get update && apt-get install -y \
         libmcrypt-dev \
     && apt-get install -y libpq-dev \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install pdo pdo_pgsql pgsql \    
+    && docker-php-ext-install pdo_pgsql pgsql \    
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
-    && docker-php-ext-install -j$(nproc) iconv mcrypt mbstring  zip \
+    && docker-php-ext-install -j$(nproc) iconv mbstring  zip \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd
     

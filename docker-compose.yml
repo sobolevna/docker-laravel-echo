@@ -44,6 +44,5 @@ services:
           - php 
           - redis
         volumes:
-          - ./www/laravel-echo-server.json:/app/laravel-echo-server.json:ro
-          - ./www/.env:/app/.env:ro
+          - ./www/:/app/
           - ./apache2/ssl:/etc/apache2/ssl
