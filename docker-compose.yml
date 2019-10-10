@@ -13,6 +13,7 @@ services:
         volumes: 
             - ./www:/var/www  
             - ./php/php.ini:/usr/local/etc/php/conf.d/z-custom.ini
+            - ./php/openssl.cnf:/etc/ssl/openssl.cnf
             - ./apache2/sites-available/:/etc/apache2/sites-available/
             - ./apache2/ssl/:/etc/apache2/ssl/
             - ./apache2/logs/:/var/log/apache2/
