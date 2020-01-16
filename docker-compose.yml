@@ -27,6 +27,7 @@ services:
             POSTGRES_PASSWORD: root
         volumes: 
             - ./postgres/data/:/var/lib/postgresql/data
+            - ./postgres/dumps:/dumps
     redis:
         container_name: redis 
         image: redis
@@ -36,7 +37,7 @@ services:
     echo:
         container_name: echo 
         image: lagun4ik/laravel-echo-server 
-        env_file: ./www/.env
+        #env_file: ./www/.env
         ports:
           - 6001:6001 
         depends_on: 
