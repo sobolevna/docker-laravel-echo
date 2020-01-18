@@ -54,13 +54,17 @@ services:
         image: openvidu/openvidu-server-kms:2.11.0
         environment: 
             - openvidu.secret=MY_SECRET 
-            - openvidu.publicurl=https://192.168.100.76:4443
+            - openvidu.publicurl=https://telemed.mznn.ru:4443
             - openvidu.recording=true
             - openvidu.recording.path=/var/storage/video/
             - openvidu.recording.public-access=true
             - KMS_TURN_URL=openvidu:openvidu@89.189.129.237:3478
+            - server.ssl.key-store=/app/p12keystore.p12
+            - server.ssl.key-store-password=vir77vit
+            - server.ssl.key-alias=telemed
         volumes: 
             - /var/run/docker.sock:/var/run/docker.sock
+            - ./openvidu/:/app/
             - /var/storage/video/:/var/storage/video/
         ports: 
             - 4443:4443

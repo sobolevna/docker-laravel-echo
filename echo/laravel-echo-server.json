@@ -23,8 +23,8 @@
 	"protocol": "https",
 	"socketio": {},
 	"secureOptions": 67108864,
-	"sslCertPath": "/etc/apache2/ssl/apache.crt",
-	"sslKeyPath": "/etc/apache2/ssl/apache.key",
+	"sslCertPath": "/etc/apache2/ssl/mznn.crt",
+	"sslKeyPath": "/etc/apache2/ssl/mznn.ru.key",
 	"sslCertChainPath": "",
 	"sslPassphrase": "",
 	"subscribers": {
