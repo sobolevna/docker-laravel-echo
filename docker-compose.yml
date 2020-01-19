@@ -58,11 +58,28 @@ services:
             - openvidu.recording=true
             - openvidu.recording.path=/var/storage/video/
             - openvidu.recording.public-access=true
-            - KMS_TURN_URL=openvidu:openvidu@89.189.129.237:3478
+            - KMS_TURN_URL=openvidu:openvidu@coturn:3478
+            - server.ssl.key-store=/app/p12keystore.p12
+            - server.ssl.key-store-password=vir77vit
+            - server.ssl.key-alias=telemed
         volumes: 
             - /var/run/docker.sock:/var/run/docker.sock
+            - ./openvidu/:/app/
             - /var/storage/video/:/var/storage/video/
         ports: 
             - 4443:4443
         depends_on: 
             - php
+            - coturn 
+        links: 
+            - coturn
+    coturn:
+        container_name: coturn
+        image: instrumentisto/coturn 
+        volumes: 
+            - ./coturn/turnserver.conf:/etc/coturn/turnserver.conf 
+        #network_mode: host
+        ports:
+            - 3478:3478
+            - 49150-49170:49150-49170/udp 
+            
