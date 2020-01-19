@@ -54,7 +54,7 @@ services:
         image: openvidu/openvidu-server-kms:2.11.0
         environment: 
             - openvidu.secret=MY_SECRET 
-            - openvidu.publicurl=https://192.168.100.76:4443
+            - openvidu.publicurl=https://localhost:4443
             - openvidu.recording=true
             - openvidu.recording.path=/var/storage/video/
             - openvidu.recording.public-access=true
