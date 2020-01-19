@@ -70,3 +70,9 @@ services:
             - 4443:4443
         depends_on: 
             - php
+    coturn:
+        container_name: coturn
+        image: instrumentisto/coturn 
+        volumes: 
+            - ./coturn/turnserver.com:/etc/coturn/turnserver.conf 
+        network_mode: host
