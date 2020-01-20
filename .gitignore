@@ -1,5 +1,4 @@
 /postgres/*
 /nbproject
 /apache2/logs/*
-/www
-/www/*
+/www/
