@@ -19,6 +19,8 @@ services:
             - ./apache2/logs/:/var/log/apache2/
             - ./apache2/apache2.conf:/etc/apache2/apache2.conf
             - /var/storage/video:/var/www/storage/app/video
+        depends_on:
+            - openvidu
     postgres: 
         container_name: postgres 
         image: postgres
@@ -54,7 +56,7 @@ services:
         image: openvidu/openvidu-server-kms:2.11.0
         environment: 
             - openvidu.secret=MY_SECRET 
-            - openvidu.publicurl=https://192.168.1.173:4443
+            - openvidu.publicurl=https://192.168.100.76:4443
             - openvidu.recording=true
             - openvidu.recording.path=/var/storage/video/
             - openvidu.recording.public-access=true
@@ -68,7 +70,5 @@ services:
             - /var/storage/video/:/var/storage/video/
         ports: 
             - 4443:4443
-        depends_on: 
-            - php
 
             

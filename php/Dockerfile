@@ -1,7 +1,7 @@
 # Для начала указываем исходный образ, он будет использован как основа
-FROM php:7.2-apache
+FROM php:7.4-apache
 # Необязательная строка с указанием автора образа
-MAINTAINER PHPtoday.ru <info@phptoday.ru> 
+MAINTAINER sobolevna <sobolevna@radius-etl.ru> 
 
 # RUN выполняет идущую за ней команду в контексте нашего образа.
 # В данном случае мы установим некоторые зависимости и модули PHP.
@@ -14,14 +14,19 @@ RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \ 
-        libxml2-dev \ 
-    && apt-get install -y libpq-dev \
+        libpng-dev \
+        zlib1g-dev \
+        libxml2-dev \
+        libzip-dev \
+        libonig-dev \
+        graphviz \
+        libpq-dev \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install soap pdo_pgsql pgsql \    
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
-    && docker-php-ext-install -j$(nproc) iconv mbstring  zip \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) iconv  zip \
+    && docker-php-ext-configure gd  \
     && docker-php-ext-install -j$(nproc) gd
     
 # Куда же без composer'а.
