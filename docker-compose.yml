@@ -19,6 +19,8 @@ services:
             - ./apache2/logs/:/var/log/apache2/
             - ./apache2/apache2.conf:/etc/apache2/apache2.conf
             - /var/storage/video:/var/www/storage/app/video
+        depends_on:
+            - openvidu
     postgres: 
         container_name: postgres 
         image: postgres
@@ -28,6 +30,8 @@ services:
         volumes: 
             - ./postgres/data/:/var/lib/postgresql/data
             - ./postgres/dumps:/dumps
+        ports:
+            - 5432:5432
     redis:
         container_name: redis 
         image: redis
@@ -49,18 +53,36 @@ services:
         volumes:
           - ./echo/:/app/
           - ./apache2/ssl:/etc/apache2/ssl
+    coturn:
+        container_name: coturn
+        image: instrumentisto/coturn:4.5
+        restart: always
+        volumes:
+            - ./coturn/turnserver.conf:/etc/coturn/turnserver.conf
+            - ./coturn/turnserver.conf:/etc/turnserver.conf
+        command: 
+            - -c /etc/coturn/turnserver.conf
+        ports: 
+            - "3478:3478"
+            - "3478:3478/udp"
+            - "3479:3479"
+            - "3479:3479/udp"
+        depends_on: 
+            - redis 
+        network_mode: host
+        restart: always 
     openvidu:
         container_name: openvidu
         image: openvidu/openvidu-server-kms:2.11.0
         environment: 
             - openvidu.secret=MY_SECRET 
-            - openvidu.publicurl=https://telemed.mznn.ru:4443
+            - openvidu.publicurl=https://telemed-radius.ddns.net:4443
             - openvidu.recording=true
             - openvidu.recording.path=/var/storage/video/
             - openvidu.recording.public-access=true
-            - KMS_TURN_URL=openvidu:openvidu@192.168.1.183:3478
-            - server.ssl.key-store=/app/p12keystore.p12
-            - server.ssl.key-store-password=vir77vit
+            - KMS_TURN_URL=openvidu:openvidu@telemed-radius.ddns.net:3478
+            - server.ssl.key-store=/app/telemed.p12
+            - server.ssl.key-store-password=openvidu
             - server.ssl.key-alias=telemed
         volumes: 
             - /var/run/docker.sock:/var/run/docker.sock
@@ -69,10 +91,5 @@ services:
         ports: 
             - 4443:4443
         depends_on: 
-            - php
-    coturn:
-        container_name: coturn
-        image: instrumentisto/coturn 
-        volumes: 
-            - ./coturn/turnserver.conf:/etc/coturn/turnserver.conf 
-        network_mode: host
+            - coturn
+            
