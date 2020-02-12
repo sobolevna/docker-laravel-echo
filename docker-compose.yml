@@ -65,8 +65,6 @@ services:
         ports: 
             - "3478:3478"
             - "3478:3478/udp"
-            - "3479:3479"
-            - "3479:3479/udp"
         depends_on: 
             - redis 
         network_mode: host
@@ -80,8 +78,8 @@ services:
             - openvidu.recording=true
             - openvidu.recording.path=/var/storage/video/
             - openvidu.recording.public-access=true
-            - KMS_TURN_URL=openvidu:openvidu@telemed-radius.ddns.net:3478
-            - server.ssl.key-store=/app/telemed.p12
+            - KMS_TURN_URL=openvidu:openvidu@89.189.129.237:3478
+            - server.ssl.key-store=/app/telemed.jks
             - server.ssl.key-store-password=openvidu
             - server.ssl.key-alias=telemed
         volumes: 
