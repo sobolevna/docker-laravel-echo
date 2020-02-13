@@ -3,7 +3,6 @@ version: '3'
 services:
     php: 
         build: ./php
-        container_name: php 
         ports: 
             - "80:80"
             - "443:443"
@@ -22,7 +21,6 @@ services:
         depends_on:
             - openvidu
     postgres: 
-        container_name: postgres 
         image: postgres
         restart: always
         environment:
@@ -33,13 +31,11 @@ services:
         ports:
             - 5432:5432
     redis:
-        container_name: redis 
         image: redis
         restart: always 
         ports: 
             - 6379:6379 
     echo:
-        container_name: echo 
         image: lagun4ik/laravel-echo-server 
         #env_file: ./www/.env
         ports:
@@ -54,7 +50,6 @@ services:
           - ./echo/:/app/
           - ./apache2/ssl:/etc/apache2/ssl
     coturn:
-        container_name: coturn
         image: instrumentisto/coturn:4.5
         restart: always
         volumes:
@@ -70,7 +65,6 @@ services:
         network_mode: host
         restart: always 
     openvidu:
-        container_name: openvidu
         image: openvidu/openvidu-server-kms:2.11.0
         environment: 
             - openvidu.secret=MY_SECRET 
