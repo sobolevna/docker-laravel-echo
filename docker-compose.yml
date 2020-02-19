@@ -72,8 +72,8 @@ services:
             - openvidu.recording=true
             - openvidu.recording.path=/var/storage/video/
             - openvidu.recording.public-access=true
-            - KMS_TURN_URL=openvidu:openvidu@telemed.mznn.ru:3478
-            - server.ssl.key-store=/app/p12keystore.p12
+            - KMS_TURN_URL=openvidu:openvidu@89.189.129.237:3478
+            - server.ssl.key-store=/app/telemed.jks
             - server.ssl.key-store-password=vir77vit
             - server.ssl.key-alias=telemed
         volumes: 
